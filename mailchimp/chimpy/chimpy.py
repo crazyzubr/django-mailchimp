@@ -1,9 +1,8 @@
-import urllib
-import urllib2
+import urllib.parse
+import urllib.request
 import pprint
 import simplejson
-from utils import transform_datetime
-from utils import flatten
+from .utils import transform_datetime, flatten
 from warnings import warn
 
 _debug = 1
@@ -35,25 +34,25 @@ class Connection(object):
         api_host = dc + '.' + api_host
 
         self.url = '%s://%s/%s/' % (proto, api_host, self.version)
-        self.opener = urllib2.build_opener()
+        self.opener = urllib.request.build_opener()
         self.opener.addheaders = [('Content-Type', 'application/x-www-form-urlencoded')]
 
     def _rpc(self, method, **params):
         """make an rpc call to the server"""
 
-        params = urllib.urlencode(params, doseq=True)
+        params = urllib.parse.urlencode(params, doseq=True)
 
         if _debug > 1:
-            print __name__, "making request with parameters"
+            print(__name__, "making request with parameters")
             pprint.pprint(params)
-            print __name__, "encoded parameters:", params
+            print(__name__, "encoded parameters:", params)
 
         response = self.opener.open("%s?method=%s" %(self.url, method), params)
         data = response.read()
         response.close()
 
         if _debug > 1:
-            print __name__, "rpc call received", data
+            print(__name__, "rpc call received", data)
 
         result = simplejson.loads(data)
 
@@ -272,14 +271,14 @@ class Connection(object):
         title = options.get('title', options['subject'])
         if isinstance(title, unicode):
             title = title.encode('utf-8')
-        titlelen = len(urllib.quote_plus(title))
+        titlelen = len(urllib.parse.quote_plus(title))
         if titlelen > 99:
             title = title[:-(titlelen - 96)] + '...'
             warn("cropped campaign title to fit the 100 character limit, new title: '%s'" % title, ChimpyWarning)
         subject = options['subject']
         if isinstance(subject, unicode):
             subject = subject.encode('utf-8')
-        subjlen = len(urllib.quote_plus(subject))
+        subjlen = len(urllib.parse.quote_plus(subject))
         if subjlen > 99:
             subject = subject[:-(subjlen - 96)] + '...'
             warn("cropped campaign subject to fit the 100 character limit, new subject: '%s'" % subject, ChimpyWarning)
