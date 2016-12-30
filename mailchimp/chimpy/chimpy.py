@@ -1,7 +1,10 @@
+try:
+    import json as simplejson
+except ImportError:
+    from django.utils import simplejson
 import urllib.parse
 import urllib.request
 import pprint
-import simplejson
 from .utils import transform_datetime, flatten
 from warnings import warn
 
