@@ -1,4 +1,7 @@
-import simplejson
+try:
+    import json as simplejson
+except ImportError:
+    from django.utils import simplejson
 
 from django.db import models
 from django.contrib.contenttypes.models import ContentType
@@ -7,8 +10,6 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext_lazy as _
 from mailchimp.utils import get_connection
-
-import simplejson as json
 
 
 class QueueManager(models.Manager):
