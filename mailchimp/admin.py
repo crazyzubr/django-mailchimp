@@ -1,6 +1,7 @@
 from django.contrib import admin
 from mailchimp.models import Campaign
 from mailchimp.settings import VIEWS_OVERVIEW
+import mailchimp.views
 
 
 class MailchimpAdmin(admin.ModelAdmin):
