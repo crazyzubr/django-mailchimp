@@ -5,13 +5,13 @@ from mailchimp.settings import VIEWS_OVERVIEW
 
 class MailchimpAdmin(admin.ModelAdmin):
     def get_urls(self):
-        from django.conf.urls import patterns, url
-        urlpatterns = patterns('',
+        from django.conf.urls import url
+        urlpatterns = [
             url(r'^$',
-                VIEWS_OVERVIEW,
+                mailchimp.views.overview,
                 name='mailchimp_campaign_changelist',
                 kwargs={'page':'1'}),
-        )
+        ]
         return urlpatterns
     
     def has_add_permission(self, request):
